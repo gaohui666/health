@@ -51,4 +51,6 @@ public class OrderSetting implements Serializable{
     public void setReservations(int reservations) {
         this.reservations = reservations;
     }
+
+
 }

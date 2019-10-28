@@ -1,17 +1,27 @@
 package com.itheima.jobs;
 
+import com.alibaba.dubbo.config.annotation.Reference;
+import com.alibaba.dubbo.config.annotation.Service;
 import com.itheima.constant.RedisConstant;
+
+import com.itheima.service.OrderSettiongService;
 import com.itheima.utils.QiniuUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import redis.clients.jedis.JedisPool;
 
+
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Set;
 
 /*
 自定义job，实现定时清理垃圾图片
  */
-public class ClearImgJob {
 
+@Service
+public class ClearImgJob {
+    @Reference
+    private OrderSettiongService orderSettiongService;
     @Autowired
     private JedisPool jedisPool;
     public void clearImg(){
@@ -27,4 +37,19 @@ public class ClearImgJob {
             }
         }
     }
+    public void clearOrderSetting() {
+        //清理数据库信息 ,31号之前的信息，
+
+        //获取每个月的最后一天
+        Calendar instance = Calendar.getInstance();
+        instance.set(Calendar.DAY_OF_MONTH, 31);
+        Date date = instance.getTime();
+        try {
+            orderSettiongService.clearOrderSetting(date);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
 }
