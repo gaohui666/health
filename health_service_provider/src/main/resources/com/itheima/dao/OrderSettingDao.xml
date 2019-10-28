@@ -28,4 +28,7 @@
     <select id="findByOrderDate" parameterType="date" resultType="com.itheima.pojo.OrderSetting">
         select * from t_ordersetting where orderDate = #{orderDate}
     </select>
+    <delete id="clearOrderSetting" parameterType="string">
+        delete from t_ordersetting where orderDate &lt;#{ordate}
+    </delete>
 </mapper>

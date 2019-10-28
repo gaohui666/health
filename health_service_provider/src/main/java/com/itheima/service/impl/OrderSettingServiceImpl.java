@@ -4,13 +4,11 @@ import com.alibaba.dubbo.config.annotation.Service;
 import com.itheima.dao.OrderSettingDao;
 import com.itheima.pojo.OrderSetting;
 import com.itheima.service.OrderSettiongService;
+import com.itheima.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service(interfaceClass = OrderSettiongService.class)
 @Transactional
@@ -66,5 +64,12 @@ public class OrderSettingServiceImpl implements OrderSettiongService {
         }else {
             orderSettingDao.add(orderSetting);
         }
+    }
+
+    //定时清理数据库过期预约信息(31号)
+    @Override
+    public void clearOrderSetting(Date date) throws Exception {
+        String dateLast4Month = DateUtils.parseDate2String(date);
+        orderSettingDao.clearOrderSetting(dateLast4Month);
     }
 }
