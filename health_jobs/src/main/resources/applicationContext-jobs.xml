@@ -42,7 +42,8 @@
             <!--
             <value>0 0 2 * * ?</value>
             -->
-            <value>0/10 * * * * ?</value>
+            <!--每个月最后一天凌晨两点执行-->
+            <value>0 0 2 L * ?</value>
         </property>
 
     </bean>
@@ -53,8 +54,8 @@
         <property name="jobDetail" ref="jobDetail4Order"/>
         <!-- 指定触发的时间，基于Cron表达式 -->
         <property name="cronExpression">
-            <value>0/10 * * * * ?</value>
-            <!--<value>0 0 0,2 0 10/1 ?</value>-->
+           <!-- <value>0/10 * * * * ?</value>-->
+            <value>0 0 2 L * ?</value>
         </property>
 
     </bean>

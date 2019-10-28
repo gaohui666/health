@@ -13,17 +13,6 @@
 						http://www.springframework.org/schema/context
 						http://www.springframework.org/schema/context/spring-context.xsd">
     <mvc:annotation-driven>
-        <mvc:message-converters register-defaults="true">
-            <bean class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter">
-                <property name="supportedMediaTypes" value="application/json"/>
-                <property name="features">
-                    <list>
-                        <value>WriteMapNullValue</value>
-                        <value>WriteDateUseDateFormat</value>
-                    </list>
-                </property>
-            </bean>
-        </mvc:message-converters>
     </mvc:annotation-driven>
     <!-- 指定应用名称 -->
     <dubbo:application name="health_jobs" />
@@ -38,5 +27,7 @@
     -->
     <dubbo:consumer timeout="600000" check="false"/>
 
+    <import resource="applicationContext-jobs.xml"/>
+    <import resource="applicationContext-redis.xml"/>
 
 </beans>

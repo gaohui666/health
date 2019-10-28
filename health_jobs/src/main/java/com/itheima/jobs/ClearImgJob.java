@@ -1,15 +1,11 @@
 package com.itheima.jobs;
-
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.itheima.constant.RedisConstant;
-
 import com.itheima.service.OrderSettiongService;
 import com.itheima.utils.QiniuUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import redis.clients.jedis.JedisPool;
-
-
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Set;
@@ -18,7 +14,7 @@ import java.util.Set;
 自定义job，实现定时清理垃圾图片
  */
 
-@Service
+
 public class ClearImgJob {
     @Reference
     private OrderSettiongService orderSettiongService;
