@@ -41,6 +41,7 @@ public class UserController {
             Map<String,Object> map = userService.loginByRole(username);//此集合为返回前端的集合
             Map<String,Object> maps = new HashMap<>();
             maps.put("menuList",map);
+            maps.put("username",username);
             return new Result(true,MessageConstant.LOGIN_SUCCESS,maps);
         }
         return new Result(false,MessageConstant.GET_USERNAME_FAIL);
