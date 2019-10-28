@@ -30,6 +30,7 @@ public class SetmealServiceImpl implements SetmealService {
 
     @Override
     public void add(Setmeal setmeal, Integer[] checkgroupIds) {
+
         setmealDao.add(setmeal);    //将套餐对象添加到数据库中
         jedisPool.getResource().sadd("setmealList".getBytes(),SerializeUtils.serialize(setmeal));//将套餐对象添加到redis中
         Integer setmealId = setmeal.getId();    //得到新添加进去的套餐对象的id
@@ -89,6 +90,7 @@ public class SetmealServiceImpl implements SetmealService {
                 }
             }
         }
+
         if (flag == false||smembers == null||smembers.size() == 0){
             //从数据库中进行查询,并将查询结果存储在redis中
              setmeal = setmealDao.findById(id);
