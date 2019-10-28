@@ -194,8 +194,9 @@
         },
         created(){
             //发送请求获取当前登录用户的用户名
-            axios.get("/user/getUsername.do").then((res)=>{
-                this.username = res.data.data;
+            axios.get("/user/loginByRole.do").then((res)=>{
+                this.username = res.data.data.username;
+                this.menuList = res.data.data;
             })
         }
     });
