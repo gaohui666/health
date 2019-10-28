@@ -57,8 +57,9 @@ public class UserServiceImpl implements UserService {
                 maps.put("path",path);
                 maps.put("title",title);
                 maps.put("icon",icon);
+            }else {
+                list.add(map);
             }
-            list.add(map);
         }
         maps.put("children",list);
         return maps;
