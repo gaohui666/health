@@ -9,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service(interfaceClass = MemberService.class)
 @Transactional
@@ -41,4 +43,33 @@ public class MemberServiceImpl implements MemberService {
         }
         return lists;
     }
+
+
+    //根据男女查询会员数量
+    @Override
+    public List<Map<String, Object>> findMemberCountBySex() {
+        return memberDao.findMemberBySex();
+    }
+
+    @Override
+    public Map<String, Object> getMemberCountByAge() {
+        //List<Map<String,Object>> list=new ArrayList<>();
+        Map<String,Object> map=new HashMap<>();
+        Integer count1=memberDao.findCountByAge1();//0-18
+        map.put("0-18岁",count1);
+        Integer count2=memberDao.findCountByAge2();//18-30
+        map.put("18-30岁",count2);
+        Integer count3=memberDao.findCountByAge3();//30-45
+        map.put("30-45岁",count3);
+        Integer count4=memberDao.findCountByAge4();//45-60
+        map.put("45-60岁",count4);
+        Integer count5=memberDao.findCountByAge5();//60以上
+        map.put("60岁以上",count5);
+
+
+        return map;
+        //return memberDao.findMemberByAge();
+
+    }
+
 }
