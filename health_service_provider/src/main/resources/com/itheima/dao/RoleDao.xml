@@ -5,62 +5,12 @@
         SELECT tr.* FROM t_role tr,t_user_role tur WHERE tur.role_id = tr.id AND tur.user_id = #{userId};
     </select>
     <select id="findByRoleId" parameterType="int" resultType="map">
-        SELECT tm.path,tm.name title,tm.`icon`,tm.`linkUrl` FROM t_role tr,t_role_menu trm,t_menu tm WHERE tr.`id`=trm.`role_id` AND trm.`menu_id`=tm.`id` AND tr.`id`=#{roleId};
+        SELECT tm.`parentMenuId`,tm.`name` title,tm.`icon`,tm.`linkUrl`,tm.path FROM t_role tr,t_role_menu trm,t_menu tm WHERE tr.`id`=trm.`role_id` AND trm.`menu_id`=tm.`id` AND tr.`id`=#{roleId};
     </select>
-
-    <!--根据条件查询-->
-    <select id="selectByCondition" parameterType="String" resultType="com.itheima.pojo.Role">
-        select * from t_role
-        <if test="value !=null and value.length > 0">
-            where name = #{value} or keyword = #{value}
-        </if>
+    <select id="findByParentMenuId" parameterType="int" resultType="map">
+        SELECT tm.`name` title,tm.`linkUrl`,tm.path FROM t_menu tm WHERE parentMenuId = #{parentMenuId}
     </select>
-<!--    增加角色-->
-    <insert id="add" parameterType="com.itheima.pojo.Role">
-        <!--通过mybatis框架提供的selectKey标签获得自增产生的id值-->
-        <selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">
-            select LAST_INSERT_ID()
-        </selectKey>
-        insert into t_role (name,keyword,description) values (#{name},#{keyword},#{description})
-    </insert>
-    <!--设置角色和权限多对多的关系-->
-    <insert id="setRoleAndPermission" parameterType="map">
-            insert into t_role_permission (role_id,permission_id) values (#{role_id},#{permission_id})
-    </insert>
-
-    <!--通过id查询所有角色信息-->
-    <select id="findById" parameterType="int" resultType="com.itheima.pojo.Role">
-        select * from t_role where id = #{id}
+    <select id="findParentMenu" parameterType="string" resultType="map">
+        SELECT tm.name title,tm.`path`,tm.`icon`,tm.id FROM t_menu tm WHERE icon = #{icon};
     </select>
-    <!--通过角色id查询权限的信息-->
-    <select id="findPermissionIdsByRoleId" parameterType="int" resultType="int">
-        select permission_id from t_role_permission where role_id = #{id}
-    </select>
-
-    <!--通过角色id更新数据-->
-    <update id="edit" parameterType="com.itheima.pojo.Role">
-        update t_role
-        <set>
-            <if test="name != null">
-                name = #{name},
-            </if>
-            <if test="keyword != null">
-                keyword = #{keyword},
-            </if>
-            <if test="description != null">
-                description = #{description},
-            </if>
-        </set>
-        where id = #{id}
-    </update>
-
-    <!--通过id删除中间表和角色的关系-->
-    <delete id="deleteAssocication" parameterType="int">
-        delete from t_role_permission where role_id = #{id}
-    </delete>
-    <!--删除角色数据-->
-    <delete id="delete" parameterType="int">
-        delete from t_role where id = #{id}
-    </delete>
-
 </mapper>
