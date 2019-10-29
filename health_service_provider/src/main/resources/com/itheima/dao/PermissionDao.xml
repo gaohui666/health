@@ -60,8 +60,4 @@
     </select>
 
 
-    <select id="findAll" resultType="com.itheima.pojo.Permission">
-        select * from t_permission
-    </select>
-
 </mapper>
