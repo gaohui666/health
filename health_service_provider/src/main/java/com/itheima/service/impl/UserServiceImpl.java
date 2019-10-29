@@ -51,7 +51,7 @@ public class UserServiceImpl implements UserService {
         List<Map> lists = new ArrayList<>();
         Map<String,Object> maps = new HashMap<>();
         for (Map map : list) {
-            String icon = (String) map.get("icon");
+           String icon = (String) map.get("icon");
             if (icon != null){
                 maps = roleDao.findParentMenu(icon);  //得到父表题对象
                 Integer parentMenuId = (Integer) maps.get("id");          //得到父表题id
@@ -62,5 +62,4 @@ public class UserServiceImpl implements UserService {
         }
         return lists;
     }
-
 }

@@ -9,5 +9,5 @@ public interface UserService {
 
     User findByUsername(String username);
 
-    List<Map> loginByRole(String username);
+    List loginByRole(String username);
 }

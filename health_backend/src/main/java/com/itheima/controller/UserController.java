@@ -39,7 +39,7 @@ public class UserController {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (user !=null){
             String username = user.getUsername();
-            List<Map> list = userService.loginByRole(username);//此集合为返回前端的集合
+            List list = userService.loginByRole(username);//此集合为返回前端的集合
             Map<String,Object> maps = new HashMap<>();
             maps.put("menuList",list);
             maps.put("username",username);
