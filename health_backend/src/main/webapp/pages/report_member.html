@@ -63,6 +63,22 @@
 
        methods:{
 
+        /*    data(){
+                return {
+                    pickerOptions: {
+                        shortcuts: [{
+                            onClick(picker) {
+                                const end = new Date();
+                                const start = new Date();
+                                start.setMonth(start.getMonth() - 6);
+                                picker.$emit('pick', [start, end]);
+                            }
+                        }]
+                    },
+                    value:''
+                };
+            },*/
+
            //搜索
            search(){
                // 基于准备好的dom，初始化echarts实例
