@@ -49,8 +49,8 @@ public class UserServiceImpl implements UserService {
         Integer roleId = userDao.loginByRole(username);  //查询用户角色表得到角色id
         Map<String,Object> maps = new HashMap<>();      //新建maps集合,将后台数据封装到次集合中
         List<Map> list = roleDao.findByRoleId(roleId);   //得到后台查询的数据
-        List listData = new ArrayList();
-        List lists = new ArrayList();
+        List<Map> listData = new ArrayList();
+        List<Map> lists = new ArrayList();
         for (Map map : list) {
             String icon = (String) map.get("icon"); //得到标记，可以区分是父表题还是子标题
             if (icon == null){
