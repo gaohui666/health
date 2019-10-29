@@ -50,15 +50,17 @@ public class UserServiceImpl implements UserService {
         Map<String,Object> maps = new HashMap<>();      //新建maps集合,将后台数据封装到次集合中
         List<Map> list = roleDao.findByRoleId(roleId);   //得到后台查询的数据
         List listData = new ArrayList();
+        List lists = new ArrayList();
         for (Map map : list) {
             String icon = (String) map.get("icon"); //得到标记，可以区分是父表题还是子标题
             if (icon == null){
-                maps.put("children",map);
-                listData.add(maps);
+                lists.add(map);
             }else {
                 listData.add(map);
             }
         }
+        maps.put("children",lists);
+        listData.add(maps);
         return listData;
     }
 }
