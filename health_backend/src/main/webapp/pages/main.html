@@ -12,6 +12,9 @@
     <link rel="stylesheet" href="../plugins/elementui/index.css">
     <link rel="stylesheet" href="../plugins/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="../css/style.css">
+    <script src="../js/vue.js"></script>
+    <script src="../plugins/elementui/index.js"></script>
+    <script src="../js/axios-0.18.0.js"></script>
     <style type="text/css">
         .el-main {
             position: absolute;
@@ -92,7 +95,7 @@
             //发送请求获取当前登录用户的用户名
             axios.post("/user/loginByRole.do").then((res)=>{
                 this.username = res.data.data.username;
-                this.menuList = res.data.data;
+                this.menuList = res.data.data.menuList;
             })
         }
     });
