@@ -5,4 +5,6 @@ public class WaterBaby {
     private int age;
 
     private String power;
+
+    private String LiZhen;
 }
