@@ -95,4 +95,55 @@
     <select id="findMemberTotalCount" resultType="int">
         select count(id) from t_member
     </select>
+
+    <!--根据男女查询会员数-->
+    <select id="findMemberBySex" resultType="map">
+        SELECT
+        CASE sex WHEN 1 THEN '男会员' WHEN 2 THEN '女会员' END
+         AS 'name',COUNT(id) 'value' FROM t_member GROUP BY sex
+    </select>
+    <!--根据年龄段查询会员数-->
+    <select id="findMemberByAge" resultType="map">
+       SELECT CASE
+       WHEN age BETWEEN 0 AND 18 THEN '0-18岁'
+       WHEN age BETWEEN 19 AND 30 THEN '18-30岁'
+       WHEN age BETWEEN 31 AND 40 THEN '30-40岁'
+       WHEN age BETWEEN 41 AND 60 THEN '40-60岁'
+       ELSE '60岁以上'
+     END
+     AS 'name',COUNT(id) AS 'value' FROM
+(SELECT m.*,YEAR( FROM_DAYS( DATEDIFF( NOW( ), birthday))) age FROM t_member m) temp GROUP BY (CASE
+       WHEN age BETWEEN 0 AND 18 THEN '0-18岁'
+       WHEN age BETWEEN 19 AND 30 THEN '18-30岁'
+       WHEN age BETWEEN 31 AND 40 THEN '30-40岁'
+       WHEN age BETWEEN 41 AND 60 THEN '40-60岁'
+       ELSE '60岁以上'
+     END)
+    </select>
+
+    <select id="findCountByAge1" resultType="int">
+        SELECT COUNT(id) AS 'value'
+        FROM ((SELECT m.*,YEAR( FROM_DAYS( DATEDIFF( NOW( ), birthday))) age FROM t_member m) temp)
+        WHERE age BETWEEN 0 AND 18;
+    </select>
+    <select id="findCountByAge2" resultType="int">
+        SELECT COUNT(id) AS 'value'
+        FROM ((SELECT m.*,YEAR( FROM_DAYS( DATEDIFF( NOW( ), birthday))) age FROM t_member m) temp)
+        WHERE age BETWEEN 19 AND 30;
+    </select>
+    <select id="findCountByAge3" resultType="int">
+        SELECT COUNT(id) AS 'value'
+        FROM ((SELECT m.*,YEAR( FROM_DAYS( DATEDIFF( NOW( ), birthday))) age FROM t_member m) temp)
+        WHERE age BETWEEN 31 AND 45;
+    </select>
+    <select id="findCountByAge4" resultType="int">
+        SELECT COUNT(id) AS 'value'
+        FROM ((SELECT m.*,YEAR( FROM_DAYS( DATEDIFF( NOW( ), birthday))) age FROM t_member m) temp)
+        WHERE age BETWEEN 46 AND 60;
+    </select>
+    <select id="findCountByAge5" resultType="int">
+        SELECT COUNT(id) AS 'value'
+        FROM ((SELECT m.*,YEAR( FROM_DAYS( DATEDIFF( NOW( ), birthday))) age FROM t_member m) temp)
+        WHERE age &gt;60;
+    </select>
 </mapper>

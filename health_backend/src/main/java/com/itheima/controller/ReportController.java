@@ -80,7 +80,39 @@ public class ReportController {
             return new Result(false,MessageConstant.GET_BUSINESS_REPORT_FAIL);
         }
     }
+    /*
+           获取男女数量统计
+           [{value:15,name:'男会员'},{value:8,name:'女会员'}]
+     */
+    @RequestMapping("/getMemberCountBySex.do")
+    public Result getMemberCountBySex(){
+        List<Map<String,Object>> list=memberService.findMemberCountBySex();//[{name:男,value:18},{name:女,value:10}]
 
+        return new Result(true,MessageConstant.GET_MEMBER_NUMBER_REPORT_SUCCESS,list);
+    }
+    /*
+        [{value:8,name:"0-12"},
+         {value:8,name:"12-24"},
+         {value:8,name:"24-36"},
+         {value:8,name:"36-48"},
+         {value:8,name:"48-60"}
+        ]
+    年龄占比统计
+     */
+    @RequestMapping("/getMemberCountByAge.do")
+    public Result getMemberCountByAge(){
+        List<Map<String,Object>> list =new ArrayList<>();
+       Map<String,Object> map=memberService.getMemberCountByAge();
+        Set<String> keySet = map.keySet();
+        for (String key : keySet) {
+            Map<String,Object> result=new HashMap<>();
+            Object value = map.get(key);
+            result.put("name",key);
+            result.put("value",value);
+            list.add(result);
+        }
+        return new Result(true,MessageConstant.GET_MEMBER_NUMBER_REPORT_SUCCESS,list);
+    }
     /*
     到处excel表
      */
