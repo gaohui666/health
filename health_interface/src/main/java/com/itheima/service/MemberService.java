@@ -13,4 +13,5 @@ public interface MemberService {
     void add(Member member);
 
     List<Integer> findMemberCountByMonth(List<String> list);
+
 }
