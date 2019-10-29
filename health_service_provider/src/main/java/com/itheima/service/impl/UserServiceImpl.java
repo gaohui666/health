@@ -56,7 +56,7 @@ public class UserServiceImpl implements UserService {
                 maps = roleDao.findParentMenu(icon);  //得到父表题对象
                 Integer parentMenuId = (Integer) maps.get("id");          //得到父表题id
                 List<Map> sonMenu = roleDao.findByParentMenuId(parentMenuId);//得到子标题对象
-                maps.put("childern",sonMenu);
+                maps.put("children",sonMenu);
                 lists.add(maps);
             }
         }
