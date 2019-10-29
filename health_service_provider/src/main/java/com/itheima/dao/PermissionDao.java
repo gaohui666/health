@@ -21,5 +21,7 @@ public interface PermissionDao {
 
     void edit(Permission permission);
 
+
+    //查询所有权限信息
     List<Permission> findAll();
 }
