@@ -16,34 +16,28 @@
 <body class="hold-transition">
 <div id="app">
     <div class="content-header">
-        <h1>预约管理
-            <small>检查项管理</small>
+        <h1>权限管理
+            <small>用户权限管理</small>
         </h1>
         <el-breadcrumb separator-class="el-icon-arrow-right" class="breadcrumb">
             <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-            <el-breadcrumb-item>预约管理</el-breadcrumb-item>
-            <el-breadcrumb-item>检查项管理</el-breadcrumb-item>
+            <el-breadcrumb-item>权限管理</el-breadcrumb-item>
+            <el-breadcrumb-item>用户权限管理</el-breadcrumb-item>
         </el-breadcrumb>
     </div>
     <div class="app-container">
         <div class="box">
             <div class="filter-container">
-                <el-input placeholder="项目编码/项目名称" v-model="pagination.queryString" style="width: 200px;"
+                <el-input placeholder="权限名称/权限编码" v-model="pagination.queryString" style="width: 200px;"
                           class="filter-item"></el-input>
                 <el-button @click="findPage()" class="dalfBut">查询</el-button>
                 <el-button type="primary" class="butT" @click="handleCreate()">新建</el-button>
             </div>
             <el-table size="small" current-row-key="id" :data="dataList" stripe highlight-current-row>
                 <el-table-column type="index" align="center" label="序号"></el-table-column>
-                <el-table-column prop="code" label="项目编码" align="center"></el-table-column>
-                <el-table-column prop="name" label="项目名称" align="center"></el-table-column>
-                <el-table-column label="适用性别" align="center">
-                    <template slot-scope="scope">
-                        <span>{{ scope.row.sex == '0' ? '不限' : scope.row.sex == '1' ? '男' : '女'}}</span>
-                    </template>
-                </el-table-column>
-                <el-table-column prop="age" label="适用年龄" align="center"></el-table-column>
-                <el-table-column prop="remark" label="项目说明" align="center"></el-table-column>
+                <el-table-column prop="keyword" label="权限编码" align="center"></el-table-column>
+                <el-table-column prop="name" label="权限名称" align="center"></el-table-column>
+                <el-table-column prop="description" label="说明" align="center"></el-table-column>
                 <el-table-column label="操作" align="center">
                     <template slot-scope="scope">
                         <el-button type="primary" size="mini" @click="handleUpdate(scope.row)">编辑</el-button>
@@ -68,58 +62,20 @@
                              label-width="100px">
                         <el-row>
                             <el-col :span="12">
-                                <el-form-item label="项目编码" prop="code">
-                                    <el-input v-model="formData.code"/>
+                                <el-form-item label="权限编码" prop="keyword">
+                                    <el-input v-model="formData.keyword"/>
                                 </el-form-item>
                             </el-col>
                             <el-col :span="12">
-                                <el-form-item label="项目名称" prop="name">
+                                <el-form-item label="权限名称" prop="name">
                                     <el-input v-model="formData.name"/>
                                 </el-form-item>
                             </el-col>
                         </el-row>
                         <el-row>
-                            <el-col :span="12">
-                                <el-form-item label="性别">
-                                    <el-select v-model="formData.sex">
-                                        <el-option label="不限" value="0"></el-option>
-                                        <el-option label="男" value="1"></el-option>
-                                        <el-option label="女" value="2"></el-option>
-                                    </el-select>
-                                </el-form-item>
-                            </el-col>
-                            <el-col :span="12">
-                                <el-form-item label="适用年龄">
-                                    <el-input v-model="formData.age"/>
-                                </el-form-item>
-                            </el-col>
-                        </el-row>
-                        <el-row>
-                            <el-col :span="12">
-                                <el-form-item label="类型">
-                                    <el-select v-model="formData.type">
-                                        <el-option label="检查" value="1"></el-option>
-                                        <el-option label="检验" value="2"></el-option>
-                                    </el-select>
-                                </el-form-item>
-                            </el-col>
-                            <el-col :span="12">
-                                <el-form-item label="价格">
-                                    <el-input v-model="formData.price"/>
-                                </el-form-item>
-                            </el-col>
-                        </el-row>
-                        <el-row>
                             <el-col :span="24">
-                                <el-form-item label="项目说明">
-                                    <el-input v-model="formData.remark" type="textarea"></el-input>
-                                </el-form-item>
-                            </el-col>
-                        </el-row>
-                        <el-row>
-                            <el-col :span="24">
-                                <el-form-item label="注意事项">
-                                    <el-input v-model="formData.attention" type="textarea"></el-input>
+                                <el-form-item label="权限说明">
+                                    <el-input v-model="formData.description" type="textarea"></el-input>
                                 </el-form-item>
                             </el-col>
                         </el-row>
@@ -138,58 +94,20 @@
                              label-width="100px">
                         <el-row>
                             <el-col :span="12">
-                                <el-form-item label="项目编码" prop="code">
-                                    <el-input v-model="formData.code"/>
+                                <el-form-item label="权限编码" prop="keyword">
+                                    <el-input v-model="formData.keyword"/>
                                 </el-form-item>
                             </el-col>
                             <el-col :span="12">
-                                <el-form-item label="项目名称" prop="name">
+                                <el-form-item label="权限名称" prop="name">
                                     <el-input v-model="formData.name"/>
                                 </el-form-item>
                             </el-col>
                         </el-row>
                         <el-row>
-                            <el-col :span="12">
-                                <el-form-item label="性别">
-                                    <el-select v-model="formData.sex">
-                                        <el-option label="不限" value="0"></el-option>
-                                        <el-option label="男" value="1"></el-option>
-                                        <el-option label="女" value="2"></el-option>
-                                    </el-select>
-                                </el-form-item>
-                            </el-col>
-                            <el-col :span="12">
-                                <el-form-item label="适用年龄">
-                                    <el-input v-model="formData.age"/>
-                                </el-form-item>
-                            </el-col>
-                        </el-row>
-                        <el-row>
-                            <el-col :span="12">
-                                <el-form-item label="类型">
-                                    <el-select v-model="formData.type">
-                                        <el-option label="检查" value="1"></el-option>
-                                        <el-option label="检验" value="2"></el-option>
-                                    </el-select>
-                                </el-form-item>
-                            </el-col>
-                            <el-col :span="12">
-                                <el-form-item label="价格">
-                                    <el-input v-model="formData.price"/>
-                                </el-form-item>
-                            </el-col>
-                        </el-row>
-                        <el-row>
                             <el-col :span="24">
-                                <el-form-item label="项目说明">
-                                    <el-input v-model="formData.remark" type="textarea"></el-input>
-                                </el-form-item>
-                            </el-col>
-                        </el-row>
-                        <el-row>
-                            <el-col :span="24">
-                                <el-form-item label="注意事项">
-                                    <el-input v-model="formData.attention" type="textarea"></el-input>
+                                <el-form-item label="权限说明">
+                                    <el-input v-model="formData.description" type="textarea"></el-input>
                                 </el-form-item>
                             </el-col>
                         </el-row>
@@ -224,8 +142,8 @@
             dialogFormVisible: false,//增加表单是否可见
             dialogFormVisible4Edit: false,//编辑表单是否可见
             rules: {//校验规则
-                code: [{required: true, message: '项目编码为必填项', trigger: 'blur'}],
-                name: [{required: true, message: '项目名称为必填项', trigger: 'blur'}]
+                keyword: [{required: true, message: '权限编码为必填项', trigger: 'blur'}],
+                name: [{required: true, message: '权限名称为必填项', trigger: 'blur'}]
             }
         },
         //钩子函数，VUE对象初始化完成后自动执行
@@ -275,7 +193,7 @@
                     if(valid) {
                         //表单数据通过校验，发送ajax异步请求将表单数据提交到后台
                         console.log(this.formData);
-                        axios.post("/checkitem/add.do", this.formData).then((res) => {
+                        axios.post("/permission/add.do", this.formData).then((res) => {
                             //关闭新增窗口
                             this.dialogFormVisible = false;
                         if (res.data.flag) {
@@ -305,7 +223,7 @@
                     pageSize: this.pagination.pageSize,     //每页显示的条目数
                     queryString: this.pagination.queryString    //查询条件
                 };
-                axios.post("/checkitem/findPage.do", param).then((response) => {
+                axios.post("/permission/findPage.do", param).then((response) => {
                     //为模型数据赋值，基于VUE双向绑定到展示页面
                     this.pagination.total = response.data.total;    //总记录数
                 this.dataList = response.data.rows; //当前页显示的数据
@@ -324,7 +242,7 @@
             handleUpdate: function (row) {
                 this.dialogFormVisible4Edit = true;
                 //发送异步请求将id传到后台
-                axios.get("/checkitem/findById.do?id=" + row.id).then((response) => {
+                axios.get("/permission/findById.do?id=" + row.id).then((response) => {
                     if(response.data.flag
             )
                 {
@@ -345,7 +263,7 @@
                 this.findPage();
             },
             showMessage(r) {
-                if (r == 'Error:Request failed with status code 403') {
+                if (r == 'Error:Request failed with status keyword 403') {
                     //权限不足
                     this.$message.error('无访问权限');
                     return;
@@ -359,7 +277,7 @@
                 //删除操作需要给用户提示
                 this.$confirm("确认删除当前选中的记录吗？", "提示", {type: 'warning'}).then(() => {
                     //发送异步请求，将id传递到后台
-                    axios.get("/checkitem/delete.do?id=" + row.id).then((response) => {
+                    axios.get("/permission/delete.do?id=" + row.id).then((response) => {
                         if(response.data.flag
             )
                 {

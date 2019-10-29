@@ -236,7 +236,7 @@
                 activeName:'first',//添加/编辑窗口Tab标签名称
                 pagination: {//分页相关属性
                     currentPage: 1,
-                    pageSize:10,
+                    pageSize:3,
                     total:100,
                     queryString:null,
                 },
@@ -282,11 +282,11 @@
                             this.$message({
                                 type: 'success',
                                 message: res.data.message
-                            })
+                            });
                         } else {
                             this.$message.error(res.data.message)
                         }
-                    })
+                    });
                 },
                 //分页查询需要传递三个参数,当前页、每页的条目数、查询条件
                 findPage() {
@@ -298,7 +298,7 @@
                     axios.post("/setmeal/findPage.do",param).then((res)=>{
                         this.dataList = res.data.rows;
                         this.pagination.total = res.data.total;
-                    })
+                    });
                 },
                 // 重置表单
                 resetForm() {
@@ -314,13 +314,15 @@
                     axios.get("/checkgroup/findAll.do").then((res)=>{
                         if (res.data.flag){
                             this.tableData = res.data.data;
-                        } else {
+                        }else {
                             this.$message.error(res.data.message);
                         }
-                    })
+                    });
                 },
                 //切换页码
                 handleCurrentChange(currentPage) {
+                    this.pagination.currentPage = currentPage;
+                    this.findPage();
                 }
             }
         })
