@@ -53,17 +53,10 @@ public class UserServiceImpl implements UserService {
         for (Map map : list) {
             String icon = (String) map.get("icon"); //得到标记，可以区分是父表题还是子标题
             if (icon == null){
-                List<Map> lists = new ArrayList<>();
-                lists.add(map);
-                maps.put("children",lists);
+                maps.put("children",map);
                 listData.add(maps);
             }else {
-                String path = (String) map.get("path"); //得到path路径
-                String title = (String) map.get("title");   //得到父标题
-                maps.put("path",path);
-                maps.put("title",title);
-                maps.put("icon",icon);
-                listData.add(maps);
+                listData.add(map);
             }
         }
         return listData;
