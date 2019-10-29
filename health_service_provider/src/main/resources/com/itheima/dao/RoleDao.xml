@@ -5,6 +5,12 @@
         SELECT tr.* FROM t_role tr,t_user_role tur WHERE tur.role_id = tr.id AND tur.user_id = #{userId};
     </select>
     <select id="findByRoleId" parameterType="int" resultType="map">
-        SELECT tm.path,tm.name title,tm.`icon`,tm.`linkUrl`,tm.`parentMenuId` FROM t_role tr,t_role_menu trm,t_menu tm WHERE tr.`id`=trm.`role_id` AND trm.`menu_id`=tm.`id` AND tr.`id`=#{roleId};
+        SELECT tm.`parentMenuId`,tm.`name` title,tm.`icon`,tm.`linkUrl`,tm.path FROM t_role tr,t_role_menu trm,t_menu tm WHERE tr.`id`=trm.`role_id` AND trm.`menu_id`=tm.`id` AND tr.`id`=#{roleId};
+    </select>
+    <select id="findByParentMenuId" parameterType="int" resultType="list">
+        SELECT tm.`name` title,tm.`linkUrl`,tm.path FROM t_menu tm WHERE parentMenuId = #{parentMenuId}
+    </select>
+    <select id="findParentMenu" parameterType="string" resultType="map">
+        SELECT tm.name title,tm.`path`,tm.`icon`,tm.id FROM t_menu tm WHERE icon = #{icon};
     </select>
 </mapper>
