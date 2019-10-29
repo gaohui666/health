@@ -56,11 +56,7 @@ public class UserServiceImpl implements UserService {
             if (icon == null){
                 lists.add(map);
             }else {
-                String path = (String) map.get("path"); //得到path路径
-                String title = (String) map.get("title");   //得到父标题
-                maps.put("path",path);
-                maps.put("title",title);
-                maps.put("icon",icon);
+                listData.add(map);
             }
         }
         maps.put("children",lists);
