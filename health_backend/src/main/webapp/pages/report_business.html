@@ -119,7 +119,7 @@
                     ]
                 }
             },
-            created(){
+            created() {
                 axios.get("/report/getBusinessReportData.do").then((res)=>{
                     if(res.data.flag){
                         this.reportData = res.data.data;

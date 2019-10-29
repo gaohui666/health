@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -38,9 +39,9 @@ public class UserController {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (user !=null){
             String username = user.getUsername();
-            Map<String,Object> map = userService.loginByRole(username);//此集合为返回前端的集合
+            List list = userService.loginByRole(username);//此集合为返回前端的集合
             Map<String,Object> maps = new HashMap<>();
-            maps.put("menuList",map);
+            maps.put("menuList",list);
             maps.put("username",username);
             return new Result(true,MessageConstant.LOGIN_SUCCESS,maps);
         }
