@@ -65,5 +65,4 @@ public class ReportServiceImpl implements ReportService {
         result.put("hotSetmeal",hotSetmeal);
         return result;
     }
-
 }
