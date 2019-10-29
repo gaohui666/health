@@ -6,9 +6,11 @@ import com.itheima.entity.Result;
 import com.itheima.service.MemberService;
 import com.itheima.service.ReportService;
 import com.itheima.service.SetmealService;
+import com.itheima.utils.DateUtils;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -33,7 +35,8 @@ public class ReportController {
     private SetmealService setmealService;
     @Reference
     private ReportService reportService;
-    @RequestMapping("/getMemberReport")
+
+    /*@RequestMapping("/getMemberReport")
     public Result getMemberReport(){
         Calendar calendar = Calendar.getInstance(); //得到calendar对象
         calendar.add(Calendar.MONTH,-12);   //获得当前日期之前12个月的日期
@@ -48,6 +51,24 @@ public class ReportController {
         List<Integer> memberCount = memberService.findMemberCountByMonth(list);
         map.put("memberCount",memberCount);
         return new Result(true, MessageConstant.GET_MEMBER_NUMBER_REPORT_SUCCESS,map);
+    }*/
+
+    @RequestMapping("/findMemberCountDuringMonth")
+    public Result findMemberCountDuringMonth(@RequestBody List<String> list){
+        String beginDate = list.get(0);
+        String endDate = list.get(1);
+        try {
+            List<String> months = DateUtils.getMonthBetween(beginDate, endDate, "yyyy-MM");
+
+            Map<String, Object> map = new HashMap<>();
+            map.put("months",months);
+            List<Integer> memberCount = memberService.findMemberCountByMonth(months);
+            map.put("memberCount",memberCount);
+            return new Result(true, MessageConstant.GET_MEMBER_NUMBER_REPORT_SUCCESS,map);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     /*
@@ -80,7 +101,39 @@ public class ReportController {
             return new Result(false,MessageConstant.GET_BUSINESS_REPORT_FAIL);
         }
     }
+    /*
+           获取男女数量统计
+           [{value:15,name:'男会员'},{value:8,name:'女会员'}]
+     */
+    @RequestMapping("/getMemberCountBySex.do")
+    public Result getMemberCountBySex(){
+        List<Map<String,Object>> list=memberService.findMemberCountBySex();//[{name:男,value:18},{name:女,value:10}]
 
+        return new Result(true,MessageConstant.GET_MEMBER_NUMBER_REPORT_SUCCESS,list);
+    }
+    /*
+        [{value:8,name:"0-12"},
+         {value:8,name:"12-24"},
+         {value:8,name:"24-36"},
+         {value:8,name:"36-48"},
+         {value:8,name:"48-60"}
+        ]
+    年龄占比统计
+     */
+    @RequestMapping("/getMemberCountByAge.do")
+    public Result getMemberCountByAge(){
+        List<Map<String,Object>> list =new ArrayList<>();
+       Map<String,Object> map=memberService.getMemberCountByAge();
+        Set<String> keySet = map.keySet();
+        for (String key : keySet) {
+            Map<String,Object> result=new HashMap<>();
+            Object value = map.get(key);
+            result.put("name",key);
+            result.put("value",value);
+            list.add(result);
+        }
+        return new Result(true,MessageConstant.GET_MEMBER_NUMBER_REPORT_SUCCESS,list);
+    }
     /*
     到处excel表
      */

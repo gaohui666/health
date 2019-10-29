@@ -87,10 +87,17 @@
 <script>
     new Vue({
         el: '#app',
+
         data: {
             username: null,//用户名
             menuList: [
                 {
+
+                    data: {
+                        username: null,
+                        menuList: [
+                            /*{
+>>>>>>> 0593d55c2c5f8afafb898e8287d9a3f0e4abdacb
                     "path": "1",
                     "title": "工作台",
                     "icon": "fa-dashboard",
@@ -233,14 +240,27 @@
                             "children": []
                         }
                     ]
-                }
-            ]
-        },
-        created() {
-            //发送请求获取当前登陆的用户名
-            axios.post("/user/getUsername.do").then((res) => {
-                this.username = res.data.data;
-            });
+                }*/
+                        ]
+                    },
+
+                    created() {
+                        //发送请求获取当前登陆的用户名
+                        axios.post("/user/getUsername.do").then((res) => {
+                            this.username = res.data.data;
+                        });
+
+                        created()
+                        {
+                            //发送请求获取当前登录用户的用户名
+                            axios.post("/user/loginByRole.do").then((res) => {
+                                this.username = res.data.data.username;
+                                this.menuList = res.data.data;
+                            })
+
+                        }
+                    }
+                }]
         }
     });
     $(function () {
