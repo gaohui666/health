@@ -9,34 +9,35 @@ import java.io.ObjectOutputStream;
 public class SerializeUtils {
     /**
      * 序列化 对象
-     * @author tianya
+     *
      * @param o
      * @return
+     * @author tianya
      */
-    public static byte[] serialize(Object o){
-        byte[] byteArray = null ;
-        try(ByteArrayOutputStream bty = new ByteArrayOutputStream();
-            ObjectOutputStream oos = new ObjectOutputStream(bty);){
+    public static byte[] serialize(Object o) {
+        byte[] byteArray = null;
+        try (ByteArrayOutputStream bty = new ByteArrayOutputStream();
+             ObjectOutputStream oos = new ObjectOutputStream(bty);) {
             oos.writeObject(o);
             byteArray = bty.toByteArray();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return byteArray ;
+        return byteArray;
     }
-
 
 
     /**
      * 反序列化 对象
-     * @author tianya
+     *
      * @param bytes
      * @return
+     * @author tianya
      */
-    public static Object unserialize(byte[] bytes){
-        Object o = null ;
-        try(ByteArrayInputStream bai = new ByteArrayInputStream(bytes);
-            ObjectInputStream ois =	new ObjectInputStream(bai);){
+    public static Object unserialize(byte[] bytes) {
+        Object o = null;
+        try (ByteArrayInputStream bai = new ByteArrayInputStream(bytes);
+             ObjectInputStream ois = new ObjectInputStream(bai);) {
             o = ois.readObject();
         } catch (Exception e) {
             e.printStackTrace();
