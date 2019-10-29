@@ -15,7 +15,9 @@ public interface MemberService {
 
     List<Integer> findMemberCountByMonth(List<String> list);
 
+
     List<Map<String, Object>> findMemberCountBySex();
 
     Map<String, Object> getMemberCountByAge();
+
 }

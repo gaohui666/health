@@ -96,6 +96,7 @@
         select count(id) from t_member
     </select>
 
+
     <!--根据男女查询会员数-->
     <select id="findMemberBySex" resultType="map">
         SELECT
@@ -146,4 +147,5 @@
         FROM ((SELECT m.*,YEAR( FROM_DAYS( DATEDIFF( NOW( ), birthday))) age FROM t_member m) temp)
         WHERE age &gt;60;
     </select>
+
 </mapper>
