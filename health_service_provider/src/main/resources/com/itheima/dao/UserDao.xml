@@ -4,5 +4,8 @@
     <select id="findByUsername" parameterType="string" resultType="com.itheima.pojo.User">
         select * from t_user where username = #{username}
     </select>
+    <select id="loginByRole" parameterType="string" resultType="int">
+        SELECT tr.id roleId FROM t_user tu,t_role tr,t_user_role tur WHERE tu.id=tur.user_id AND tur.role_id=tr.id AND tu.username=#{username};
+    </select>
 
 </mapper>

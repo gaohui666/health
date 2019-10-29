@@ -4,4 +4,7 @@
     <select id="findByUserId" parameterType="int" resultType="com.itheima.pojo.Role">
         SELECT tr.* FROM t_role tr,t_user_role tur WHERE tur.role_id = tr.id AND tur.user_id = #{userId};
     </select>
+    <select id="findByRoleId" parameterType="int" resultType="map">
+        SELECT tm.path,tm.name title,tm.`icon`,tm.`linkUrl` FROM t_role tr,t_role_menu trm,t_menu tm WHERE tr.`id`=trm.`role_id` AND trm.`menu_id`=tm.`id` AND tr.`id`=#{roleId};
+    </select>
 </mapper>

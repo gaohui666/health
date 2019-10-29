@@ -15,4 +15,6 @@ public interface OrderSettingDao {
     OrderSetting findByOrderDate(Date date);     //通过日期查询预约信息
 
     void editReservationsByOrderDate(OrderSetting orderSetting);
+
+    void clearOrderSetting(String date);
 }

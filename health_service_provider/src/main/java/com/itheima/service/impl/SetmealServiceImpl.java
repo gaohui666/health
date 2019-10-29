@@ -9,14 +9,13 @@ import com.itheima.entity.PageResult;
 import com.itheima.entity.QueryPageBean;
 import com.itheima.pojo.Setmeal;
 import com.itheima.service.SetmealService;
+import com.itheima.utils.SerializeUtils;
 import jdk.nashorn.internal.objects.annotations.Constructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import redis.clients.jedis.JedisPool;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service(interfaceClass = SetmealService.class)
 @Transactional
@@ -31,7 +30,9 @@ public class SetmealServiceImpl implements SetmealService {
 
     @Override
     public void add(Setmeal setmeal, Integer[] checkgroupIds) {
+
         setmealDao.add(setmeal);    //将套餐对象添加到数据库中
+        jedisPool.getResource().sadd("setmealList".getBytes(),SerializeUtils.serialize(setmeal));//将套餐对象添加到redis中
         Integer setmealId = setmeal.getId();    //得到新添加进去的套餐对象的id
         setSetmealAndGroupIds(setmealId, checkgroupIds);//将套餐id和检查组id存入map集合中
         //将图片名称保存到redis集合中
@@ -52,13 +53,49 @@ public class SetmealServiceImpl implements SetmealService {
 
     @Override
     public List<Setmeal> findAll() {
-        List<Setmeal> setmealList = setmealDao.findAll();
+        List<Setmeal> setmealList = new ArrayList<>();
+        //从jedis数据库中进行查询
+        Set<byte[]> smembers = jedisPool.getResource().smembers("setmealList".getBytes());
+        if (smembers !=null && smembers.size()>0) {
+            //将查询到的数据存入setmealList集合
+            for (byte[] smember : smembers) {
+                Setmeal setmeal = (Setmeal) SerializeUtils.unserialize(smember);
+                setmealList.add(setmeal);
+            }
+        }else {
+            //如果查询为空
+            //调用setmealDao从数据库中查询
+            setmealList = setmealDao.findAll();
+        //并将查询到的数据存储到redis集合中
+            for (Setmeal setmeal : setmealList) {
+                jedisPool.getResource().sadd("setmealList".getBytes(), SerializeUtils.serialize(setmeal));
+            }
+        }
         return setmealList;
     }
 
     @Override
     public Setmeal findById(int id) {   //通过id查询套餐中的所有信息
-        Setmeal setmeal = setmealDao.findById(id);
+        Setmeal setmeal = new Setmeal();
+        //从jedis数据库中进行查询
+        Set<byte[]> smembers = jedisPool.getResource().smembers("setmeal".getBytes());
+        boolean flag = false;
+        if (smembers !=null && smembers.size()>0) {
+            for (byte[] smember : smembers) {
+                Setmeal setmeal1 = (Setmeal) SerializeUtils.unserialize(smember);
+                if (setmeal1.getId() == id) {
+                    flag = true;
+                    setmeal = setmeal1;
+                    return setmeal;
+                }
+            }
+        }
+
+        if (flag == false||smembers == null||smembers.size() == 0){
+            //从数据库中进行查询,并将查询结果存储在redis中
+             setmeal = setmealDao.findById(id);
+             jedisPool.getResource().sadd("setmeal".getBytes(),SerializeUtils.serialize(setmeal));
+        }
         return setmeal;
     }
 
