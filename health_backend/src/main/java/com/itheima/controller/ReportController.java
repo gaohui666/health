@@ -36,23 +36,6 @@ public class ReportController {
     @Reference
     private ReportService reportService;
 
-    /*@RequestMapping("/getMemberReport")
-    public Result getMemberReport(){
-        Calendar calendar = Calendar.getInstance(); //得到calendar对象
-        calendar.add(Calendar.MONTH,-12);   //获得当前日期之前12个月的日期
-        List<String> list = new ArrayList<>();      //新建list集合，存储日期
-        for (int i = 0; i < 12; i++) {
-            //将当前日期之前的12个月的日期整理为年月格式，并添加到list集合中
-            calendar.add(Calendar.MONTH,1);
-            list.add(new SimpleDateFormat("yyyy.MM").format(calendar.getTime()));
-        }
-        Map<String, Object> map = new HashMap<>();
-        map.put("months",list);
-        List<Integer> memberCount = memberService.findMemberCountByMonth(list);
-        map.put("memberCount",memberCount);
-        return new Result(true, MessageConstant.GET_MEMBER_NUMBER_REPORT_SUCCESS,map);
-    }*/
-
     @RequestMapping("/findMemberCountDuringMonth")
     public Result findMemberCountDuringMonth(@RequestBody List<String> list){
         String beginDate = list.get(0);
@@ -105,7 +88,7 @@ public class ReportController {
            获取男女数量统计
            [{value:15,name:'男会员'},{value:8,name:'女会员'}]
      */
-    @RequestMapping("/getMemberCountBySex.do")
+    @RequestMapping("/getMemberCountBySex")
     public Result getMemberCountBySex(){
         List<Map<String,Object>> list=memberService.findMemberCountBySex();//[{name:男,value:18},{name:女,value:10}]
 
@@ -120,7 +103,7 @@ public class ReportController {
         ]
     年龄占比统计
      */
-    @RequestMapping("/getMemberCountByAge.do")
+    @RequestMapping("/getMemberCountByAge")
     public Result getMemberCountByAge(){
         List<Map<String,Object>> list =new ArrayList<>();
        Map<String,Object> map=memberService.getMemberCountByAge();
