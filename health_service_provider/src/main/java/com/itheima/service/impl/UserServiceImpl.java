@@ -45,21 +45,24 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List loginByRole(String username) {
-        Integer roleId = userDao.loginByRole(username);  //查询用户角色表得到角色id
-        List<Map> list = roleDao.findByRoleId(roleId);   //得到后台查询的数据
+    public Map<String, Object> loginByRole(String username) {
+       Integer roleId = userDao.loginByRole(username);  //查询用户角色表得到角色id
+        Map<String,Object> maps = new HashMap<>();      //新建maps集合,将后台数据封装到次集合中
+       List<Map> list = roleDao.findByRoleId(roleId);   //得到后台查询的数据
         List<Map> lists = new ArrayList<>();
-        Map<String,Object> maps = new HashMap<>();
         for (Map map : list) {
-           String icon = (String) map.get("icon");
-            if (icon != null){
-                maps = roleDao.findParentMenu(icon);  //得到父表题对象
-                Integer parentMenuId = (Integer) maps.get("id");          //得到父表题id
-                List<Map> sonMenu = roleDao.findByParentMenuId(parentMenuId);//得到子标题对象
-                maps.put("children",sonMenu);
-                lists.add(maps);
+            String icon = (String) map.get("icon"); //得到标记，可以区分是父表题还是子标题
+            if (icon == null){
+                lists.add(map);
+                maps.put("children",lists);
+            }else {
+                String path = (String) map.get("path"); //得到path路径
+                String title = (String) map.get("title");   //得到父标题
+                maps.put("path",path);
+                maps.put("title",title);
+                maps.put("icon",icon);
             }
         }
-        return lists;
+        return maps;
     }
 }
