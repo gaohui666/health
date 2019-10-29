@@ -10,4 +10,9 @@ public interface RoleDao {
     Set<Role> findByUserId(Integer userId);
 
     List<Map> findByRoleId(Integer roleId);
+
+    List findByParentMenuId(Integer parentMenuId);
+
+    Map<String, Object> findParentMenu(String icon);
+
 }
